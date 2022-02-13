@@ -18,7 +18,7 @@ function App() {
   const [question, setQuestion] = useState(
     JSON.parse(localStorage.getItem("question")) || "",
   );
-  const [chosenText, setChosenText] = useState("");
+
   const [correctAnswers, setCorrectAnswers] = useState([]);
   const [perfect, setPerfect] = useState(false);
   const [hasFetch, setHasFetch] = useState(false);
@@ -48,7 +48,7 @@ function App() {
       });
       // add clicked class
       classList.add("clicked");
-      setChosenText(innerText);
+
       setOwnAnswers((oldAns) => [...oldAns, innerText]);
     }
   }
