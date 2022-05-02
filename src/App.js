@@ -20,11 +20,7 @@ function App() {
   );
 
   const [correctAnswers, setCorrectAnswers] = useState([]);
-  const [perfect, setPerfect] = useState(false);
   const [hasFetch, setHasFetch] = useState(false);
-  // logs
-  // console.log("Correct answers:", correctAnswers);
-  console.log("own answers:", ownAnswers);
 
   /**
    * When you click on the answer it will
@@ -75,7 +71,6 @@ function App() {
                     submit={submit}
                     handleClick={handleClick}
                     ownanswers={ownAnswers}
-                    perfect={perfect}
                   />
                 </>
               );
@@ -87,11 +82,13 @@ function App() {
   }, [isOpen]);
   function submitTo() {
     if (!submit) {
-      if (correctAnswers.every((item) => ownAnswers.includes(item))) {
-        console.log("perfect");
-        setScore(5);
-        setPerfect(true);
-      }
+      ownAnswers.map((ownAnswer) => {
+        correctAnswers.map((correctAnswer) => {
+          if (ownAnswer === correctAnswer) {
+            setScore(score + 1);
+          }
+        });
+      });
 
       setSubmit(true);
     } else {
@@ -107,15 +104,11 @@ function App() {
         {isOpen ? hasFetch ? <h1>Questions</h1> : "" : ""}
       </div>
       {isOpen ? (
-        hasFetch ? (
+        hasFetch && (
           <>
             {question}
             <div className="sub-scoreContainer">
-              {submit
-                ? score === 5
-                  ? `You scored 5/5 correct answers`
-                  : "You scored less than 5/5 correct answers"
-                : ""}
+              {submit && `You scored ${score}/5 correct answers`}
               <button
                 onClick={() => {
                   submitTo();
@@ -125,8 +118,6 @@ function App() {
               </button>
             </div>
           </>
-        ) : (
-          ""
         )
       ) : (
         <Opening isOpen={isOpen} handleClick={() => setIsOpen(true)} />
